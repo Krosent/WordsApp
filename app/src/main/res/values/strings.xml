@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Words App</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_dictionary">My Dictionary</string>
+    <string name="title_home">Search</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Dictionary Fragment. In Dev</string>
+
+    <!-- My Custom Strings are below-->
+    <string name="search_placeholder">Enter here...</string>
+    <string name="textField_placeholder">Just text</string>
+    <string name="image_placeholder">Image</string>
+
+    <!--Placeholders for words detailed info item-->
+    <string name="synonyms_placeholder">Synonyms:</string>
+    <string name="antonyms_placeholder">Antonyms:</string>
+    <string name="definition_placeholder">Definition:</string>
+    <string name="examples_placeholder">Examples:</string>
+    <string name="partOfSpeech_placeholder">Part of Speech:</string>
+
+    <string name="error_response">Problem with internet connection. Word was not found!</string>
+    <string name="no_internet_message">Mobile device is not connected to the internet</string>
+
+</resources>

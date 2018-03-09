@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="6dp"
+        android:clipToPadding="false"
+        android:clipChildren="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp">
+
+            <TextView
+                android:id="@+id/definitionPHTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/definition_placeholder"
+                android:textSize="22sp"
+                android:textColor="@color/text_placeholder_color" />
+
+            <View
+                android:id="@+id/definitionHR"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/horizontal_line_color"/>
+
+            <TextView
+                android:id="@+id/definitionDataTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:textSize="17sp"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/partOfSpeechPHTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/partOfSpeech_placeholder"
+                android:textSize="22sp"
+                android:textColor="@color/text_placeholder_color" />
+
+            <View
+                android:id="@+id/partOfSpeechHR"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/horizontal_line_color"/>
+
+            <TextView
+                android:id="@+id/partOfSpeechDataTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:textSize="17sp"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/synonymsPHTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/synonyms_placeholder"
+                android:textSize="22sp"
+                android:textColor="@color/text_placeholder_color" />
+
+            <View
+                android:id="@+id/synonymsHR"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/horizontal_line_color"/>
+
+            <TextView
+                android:id="@+id/synonymsDataTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:textSize="17sp"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/antonymsPHTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/antonyms_placeholder"
+                android:textSize="22sp"
+                android:textColor="@color/text_placeholder_color" />
+
+            <View
+                android:id="@+id/antonymsHR"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/horizontal_line_color"/>
+
+
+            <TextView
+                android:id="@+id/antonymsDataTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:textSize="17sp"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/examplesPHTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/examples_placeholder"
+                android:textSize="22sp"
+                android:textColor="@color/text_placeholder_color" />
+
+            <View
+                android:id="@+id/examplesHR"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/horizontal_line_color"/>
+
+            <TextView
+                android:id="@+id/examplesDataTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:textSize="17sp"
+                android:layout_marginBottom="4dp"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

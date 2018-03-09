@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009688</color>
+    <color name="logoColor">#009688</color>
+    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorAccent">#004D40</color>
+    <color name="search_default">#4DB6AC</color>
+    <color name="search_selected">#00796B</color>
+    <color name="search_symbol_color">#737373</color>
+    <color name="selector_symbol_color">#737373</color>
+    <color name="item_background">#559e97</color>
+    <color name="horizontal_line_color">#eaeaea</color>
+    <color name="text_placeholder_color">#00796B</color>
+</resources>
