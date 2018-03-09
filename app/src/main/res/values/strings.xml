@@ -24,4 +24,9 @@
     <string name="error_response">Problem with internet connection. Word was not found!</string>
     <string name="no_internet_message">Mobile device is not connected to the internet</string>
 
+    <!--Dialog(add new word)  strings-->
+    <string name="dialog_title">Add new word to the vocabulary</string>
+    <string name="new_word_textfield">Enter word</string>
+    <string name="button_add_new_word">Add</string>
+
 </resources>

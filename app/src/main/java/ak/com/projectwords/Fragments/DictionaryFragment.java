@@ -1,10 +1,13 @@
 package ak.com.projectwords.Fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import ak.com.projectwords.Activities.MainActivity;
 import ak.com.projectwords.Activities.WordDetailsActivity;
 import ak.com.projectwords.Adapters.DictionaryAdapter;
 import ak.com.projectwords.Other.Helpers;
@@ -36,6 +40,7 @@ import ak.com.projectwords.Services.AppDatabase;
 public class DictionaryFragment extends Fragment  implements DictionaryAdapter.OnItemClicked{
     private OnFragmentInteractionListener mListener;
     private RecyclerView dictionaryRecyclerView;
+    private FloatingActionButton addWordFloatingActionButton;
     private DictionaryAdapter adapter;
     private AppDatabase db;
 
@@ -58,6 +63,7 @@ public class DictionaryFragment extends Fragment  implements DictionaryAdapter.O
 
     private void init(View v) {
         dictionaryRecyclerView = v.findViewById(R.id.dictionaryRecyclerView);
+        addWordFloatingActionButton = v.findViewById(R.id.addWordFloatingActionButton);
     }
 
     @Override
@@ -70,12 +76,24 @@ public class DictionaryFragment extends Fragment  implements DictionaryAdapter.O
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(getActivity());
         dictionaryRecyclerView.setLayoutManager(layoutManager);
-        //dictionaryRecyclerView.addItemDecoration(new Helpers.VerticalSpaceItemDecoration(25));
         dictionaryRecyclerView.setAdapter(adapter);
         db = AppDatabase.getDatabase(getContext());
         getAllWordsFromDB(db, adapter);
         adapter.setOnItemClicked(this);
         Helpers.createItemTouchHelper(adapter).attachToRecyclerView(dictionaryRecyclerView);
+        addWordFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("Fab", "Clicked");
+                View v = getLayoutInflater().inflate(R.layout.dialog_add_new_word, null);
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+                mBuilder.setView(v);
+                AlertDialog dialog = mBuilder.create();
+                dialog.setTitle(R.string.dialog_title);
+                dialog.setIcon(R.drawable.ic_notebook);
+                dialog.show();
+            }
+        });
         return view;
     }
 
