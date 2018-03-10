@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -27,6 +31,8 @@ import ak.com.projectwords.Other.Helpers;
 import ak.com.projectwords.POJOs.Word;
 import ak.com.projectwords.R;
 import ak.com.projectwords.Services.AppDatabase;
+
+import static android.os.AsyncTask.execute;
 
 
 /**
@@ -56,94 +62,28 @@ public class DictionaryFragment extends Fragment  implements DictionaryAdapter.O
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     private void init(View v) {
         dictionaryRecyclerView = v.findViewById(R.id.dictionaryRecyclerView);
         addWordFloatingActionButton = v.findViewById(R.id.addWordFloatingActionButton);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_dictionary, container, false);
-        init(view);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    private void configureAdapter(AppDatabase db) {
         adapter = new DictionaryAdapter(getContext());
         RecyclerView.LayoutManager layoutManager =
                 new LinearLayoutManager(getActivity());
         dictionaryRecyclerView.setLayoutManager(layoutManager);
         dictionaryRecyclerView.setAdapter(adapter);
-        db = AppDatabase.getDatabase(getContext());
-        getAllWordsFromDB(db, adapter);
+        fillAdapterFromLDB(db, adapter); // Fills adapter with data from local database
         adapter.setOnItemClicked(this);
         Helpers.createItemTouchHelper(adapter).attachToRecyclerView(dictionaryRecyclerView);
-        addWordFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e("Fab", "Clicked");
-                View v = getLayoutInflater().inflate(R.layout.dialog_add_new_word, null);
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
-                mBuilder.setView(v);
-                AlertDialog dialog = mBuilder.create();
-                dialog.setTitle(R.string.dialog_title);
-                dialog.setIcon(R.drawable.ic_notebook);
-                dialog.show();
-            }
-        });
-        return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
-    public void onItemClicked(int position) {
-        if(adapter.getWords() != null) {
-            Intent intent = new Intent(getActivity(), WordDetailsActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("word", adapter.getWords().get(position).getWord());
-            intent.putExtras(bundle);
-            startActivity(intent);
-        } else {
-            Log.e("Words list is", " null");
-        }
-    }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
-    private void getAllWordsFromDB(AppDatabase db, DictionaryAdapter adapter) {
+    private void fillAdapterFromLDB(AppDatabase db, DictionaryAdapter adapter) {
         List<Word> words = null;
         try {
             words = new AsyncTask<Void, Void, List<Word>>() {
@@ -164,6 +104,115 @@ public class DictionaryFragment extends Fragment  implements DictionaryAdapter.O
                 adapter.add(word);
             }
         }
+    }
+
+    private AlertDialog.Builder initBuilder() {
+        View v = getLayoutInflater().inflate(R.layout.dialog_add_new_word, null);
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getContext());
+        mBuilder.setView(v);
+        return mBuilder;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_dictionary, container, false);
+        init(view);
+
+        //Database instance
+        db = AppDatabase.getDatabase(getContext());
+        // Adapter configuration
+        configureAdapter(db);
+
+        // Floating action button which uses for opening alert dialog
+        addWordFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create Dialog
+                AlertDialog dialog = initBuilder().create();
+
+                // Customization of dialog
+                dialog.setTitle(R.string.dialog_title);
+                dialog.setIcon(R.drawable.ic_notebook);
+                dialog.show();
+
+                // init dialog inner views
+                TextInputEditText addWordInputEditText = dialog.findViewById(R.id.addWordInputEditText);
+                Button addWordButton = dialog.findViewById(R.id.addWordButton);
+                TextInputLayout WordInputWrapper = dialog.findViewById(R.id.wordWrapper);
+
+                // Get data from input field if button is clicked
+                addWordButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(addWordInputEditText.getText().length() > 0) {
+                            // Create model
+                            Word word = new Word(Helpers
+                                    .setCapitalLetter(addWordInputEditText.getText().toString()));
+                            // Insert model to local db
+                            execute(() -> db.service().insert(word));
+                            // Insert model to adapter
+                            adapter.add(word);
+
+                            dialog.hide();
+                            WordInputWrapper.setErrorEnabled(false);
+                        } else {
+                            WordInputWrapper.setError("Field is empty!");
+                        }
+
+                    }
+                });
+
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        if(adapter.getWords() != null) {
+            Intent intent = new Intent(getActivity(), WordDetailsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("word", adapter.getWords().get(position).getWord());
+            intent.putExtras(bundle);
+            startActivity(intent);
+        } else {
+            Log.e("Words list is", " null");
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
 }

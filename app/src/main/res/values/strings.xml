@@ -29,4 +29,8 @@
     <string name="new_word_textfield">Enter word</string>
     <string name="button_add_new_word">Add</string>
 
+
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
+
 </resources>

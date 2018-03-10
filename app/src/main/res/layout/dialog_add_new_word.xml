@@ -4,23 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     android:padding="10dp">
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/wordWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/addWordInputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/new_word_textfield" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/addWordButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/logoColor"
+        android:background="@color/logoColor"
         android:text="@string/button_add_new_word"
         android:textColor="@android:color/white" />
 </LinearLayout>
