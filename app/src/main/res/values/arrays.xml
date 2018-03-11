@@ -3,5 +3,6 @@
     <string-array name="selector_search_entries">
         <item>Synonyms</item>
         <item>Antonyms</item>
+        <item>Rhymes</item>
     </string-array>
 </resources>
