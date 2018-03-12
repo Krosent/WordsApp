@@ -1,7 +1,7 @@
 package ak.com.projectwords.Fragments;
 
 import android.content.Context;
-import android.graphics.Rect;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,11 +23,13 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ak.com.projectwords.Activities.WordDetailsActivity;
 import ak.com.projectwords.Adapters.FoundWordsAdapter;
+import ak.com.projectwords.Interfaces.OnItemClicked;
 import ak.com.projectwords.POJOs.Antonyms;
 import ak.com.projectwords.POJOs.Synonyms;
 import ak.com.projectwords.POJOs.Word;
-import ak.com.projectwords.Other.Helpers;
+import ak.com.projectwords.Helper.Helpers;
 import ak.com.projectwords.POJOs.WordFullData.Rhymes;
 import ak.com.projectwords.R;
 import ak.com.projectwords.Services.RestService;
@@ -36,8 +38,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static ak.com.projectwords.Other.Helpers.hideKeyboard;
-import static ak.com.projectwords.Other.Helpers.isNetworkConnected;
+import static ak.com.projectwords.Helper.Helpers.hideKeyboard;
+import static ak.com.projectwords.Helper.Helpers.isNetworkConnected;
 
 
 /**
@@ -48,7 +50,7 @@ import static ak.com.projectwords.Other.Helpers.isNetworkConnected;
  * Use the {@link SearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements OnItemClicked {
     // Creating UI elements variables
     private static SearchFragment fragment;
     EditText searchEditText;
@@ -109,7 +111,9 @@ public class SearchFragment extends Fragment {
         WordsRecyclerView.addItemDecoration(new Helpers.VerticalSpaceItemDecoration(25));
 
         WordsRecyclerView.setLayoutManager(layoutManager);
+        adapter.setOnItemClicked(this);
         WordsRecyclerView.setAdapter(adapter);
+
     }
 
     private void searchTextFieldConfig() {
@@ -306,6 +310,15 @@ public class SearchFragment extends Fragment {
             };
             getActivity().runOnUiThread(mRunnable);
         }
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        Intent intent = new Intent(getActivity(), WordDetailsActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("word", adapter.getWords().get(position).getWord());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

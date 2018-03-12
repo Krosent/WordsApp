@@ -1,17 +1,15 @@
 package ak.com.projectwords.Activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import ak.com.projectwords.Adapters.WordDescriptionAdapter;
-import ak.com.projectwords.Other.Helpers;
+import ak.com.projectwords.Helper.Helpers;
 import ak.com.projectwords.POJOs.WordFullData.WordCharacterization;
 import ak.com.projectwords.R;
 import ak.com.projectwords.Services.RestService;
@@ -28,6 +26,20 @@ public class WordDetailsActivity extends AppCompatActivity {
     private WordCharacterization characterization;
     private WordDescriptionAdapter adapter;
 
+    private void init() {
+        recyclerView = findViewById(R.id.descriptInfoRecycleView);
+        descriptionProgressBar = findViewById(R.id.descriptionProgressBar);
+        descriptionProgressBar.setVisibility(View.GONE);
+    }
+
+    private void initAdapter() {
+        adapter = new WordDescriptionAdapter(null);
+        RecyclerView.LayoutManager layoutManager =
+                new LinearLayoutManager(this);
+        recyclerView.addItemDecoration(new Helpers.VerticalSpaceItemDecoration(25));
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +47,11 @@ public class WordDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_word_details);
         bundle = getIntent().getExtras();
         getSupportActionBar().setTitle(bundle.getString("word"));
-        recyclerView = findViewById(R.id.descriptInfoRecycleView);
-        descriptionProgressBar = findViewById(R.id.descriptionProgressBar);
-        descriptionProgressBar.setVisibility(View.GONE);
-        adapter = new WordDescriptionAdapter(null);
-        RecyclerView.LayoutManager layoutManager =
-                new LinearLayoutManager(this);
-        recyclerView.addItemDecoration(new Helpers.VerticalSpaceItemDecoration(25));
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+
+        init();
+
+        initAdapter();
+
         getDataFromRest(bundle.getString("word"), this);
 
 

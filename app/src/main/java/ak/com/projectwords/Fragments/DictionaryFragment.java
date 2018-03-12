@@ -9,25 +9,22 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import ak.com.projectwords.Activities.MainActivity;
 import ak.com.projectwords.Activities.WordDetailsActivity;
 import ak.com.projectwords.Adapters.DictionaryAdapter;
-import ak.com.projectwords.Other.Helpers;
+import ak.com.projectwords.Interfaces.OnItemClicked;
+import ak.com.projectwords.Helper.Helpers;
 import ak.com.projectwords.POJOs.Word;
 import ak.com.projectwords.R;
 import ak.com.projectwords.Services.AppDatabase;
@@ -43,7 +40,7 @@ import static android.os.AsyncTask.execute;
  * Use the {@link DictionaryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DictionaryFragment extends Fragment  implements DictionaryAdapter.OnItemClicked{
+public class DictionaryFragment extends Fragment  implements OnItemClicked {
     private OnFragmentInteractionListener mListener;
     private RecyclerView dictionaryRecyclerView;
     private FloatingActionButton addWordFloatingActionButton;

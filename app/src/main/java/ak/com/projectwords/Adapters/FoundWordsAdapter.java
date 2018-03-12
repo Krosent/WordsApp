@@ -13,8 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import ak.com.projectwords.Interfaces.OnItemClicked;
 import ak.com.projectwords.POJOs.Word;
-import ak.com.projectwords.Other.Helpers;
+import ak.com.projectwords.Helper.Helpers;
 import ak.com.projectwords.R;
 import ak.com.projectwords.Services.AppDatabase;
 
@@ -30,6 +31,7 @@ public class FoundWordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     RecyclerView.ViewHolder viewHolder;
     private List<Word> words;
     AppDatabase db;
+    OnItemClicked onItemClicked;
 
     public FoundWordsAdapter() {
         this.words = new ArrayList<>();
@@ -46,7 +48,7 @@ public class FoundWordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         TextView foundWordTextView;
         ImageButton saveWordButton;
@@ -56,6 +58,12 @@ public class FoundWordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             foundWordTextView = v.findViewById(R.id.wordTextView);
             saveWordButton = v.findViewById(R.id.saveWordImageButton);
             saveWordButton.setTag(ADD_TO_DB);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClicked.onItemClicked(getAdapterPosition());
+                }
+            });
         }
     }
 
@@ -79,7 +87,6 @@ public class FoundWordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 // HERE IS SHOULD BE ADDING WORD TO THE DATABASE
                 execute(() -> db.service().insert(clickedWord));
                 // ***********
-                Log.e("Object added", clickedWord.toString());
 
             } else if (resource == REMOVE_FROM_DB) {
                 clickButton.setImageResource(R.drawable.add_to_dictionary);
@@ -87,15 +94,9 @@ public class FoundWordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 // Remove word from DATABASE
                 execute(() -> db.service().deleteWord(clickedWord.getWord()));
-                Log.e("Object tried tb deleted", clickedWord.toString());
                 // ***********
             }
 
-
-
-
-            Helpers.showToast(parent.getContext(),
-                    "Add button was clicked for: " + clickedWord.getWord());
         });
 
         return viewHolder;
@@ -149,4 +150,12 @@ public class FoundWordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+
+    public void setOnItemClicked(OnItemClicked itemClickable) {
+        this.onItemClicked = itemClickable;
+    }
+
+    public List<Word> getWords() {
+        return words;
+    }
 }

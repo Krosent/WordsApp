@@ -1,10 +1,8 @@
 package ak.com.projectwords.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +10,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import ak.com.projectwords.Activities.MainActivity;
-import ak.com.projectwords.Activities.WordDetailsActivity;
-import ak.com.projectwords.Other.Helpers;
+import ak.com.projectwords.Interfaces.OnItemClicked;
 import ak.com.projectwords.POJOs.Word;
 import ak.com.projectwords.R;
 import ak.com.projectwords.Services.AppDatabase;
@@ -100,10 +95,6 @@ public class DictionaryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return null;
             }
         }.execute();
-    }
-
-    public interface OnItemClicked {
-        void onItemClicked(int position);
     }
 
     public void setOnItemClicked(OnItemClicked itemClickable) {

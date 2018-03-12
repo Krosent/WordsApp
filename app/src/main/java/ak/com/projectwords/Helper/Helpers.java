@@ -1,13 +1,11 @@
-package ak.com.projectwords.Other;
+package ak.com.projectwords.Helper;
 
 import android.app.Activity;
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ak.com.projectwords.Adapters.DictionaryAdapter;
-import ak.com.projectwords.Services.AppDatabase;
 
 /**
  * Created by artyomkuznetsov on 2/20/18.
