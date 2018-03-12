@@ -11,7 +11,7 @@ Words App is an android application for searching information about words(e.g sy
 - Native Android (Java 8)
 - Retrofit Library (to communicate with rest)
 
-# More about server from where app fetch all words:
+# Backend side:
 This application uses ‘Words Api’ Rest Api. (https://www.wordsapi.com/)
 Thanks to the service it’s no need to create own backend service.
 
