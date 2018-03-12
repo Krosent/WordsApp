@@ -19,6 +19,7 @@ Thanks to the service it’s no need to create own backend service.
 4.4(Kitkat) 
 
 # Preview:
+<a href="https://github.com/Krosent/WordsApp/blob/master/app/screens/1.jpg?raw=true&s=200"><img src="hhttps://github.com/Krosent/WordsApp/blob/master/app/screens/1.jpg?raw=true&s=200" align="left" height="50%" width="50%" ></a>
 ![img1](https://github.com/Krosent/WordsApp/blob/master/app/screens/1.jpg?raw=true&s=200)
 ![img2](https://github.com/Krosent/WordsApp/blob/master/app/screens/2.jpg?raw=true)
 ![img3](https://github.com/Krosent/WordsApp/blob/master/app/screens/3.jpg?raw=true)
